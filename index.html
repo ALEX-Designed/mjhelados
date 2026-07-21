@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MJ Helados - Frescura que te alegra. Helados artesanales en Ambato. Entrega gratis.">
+    <meta name="theme-color" content="#8B0000">
+    <title>MJ Helados | Frescura que te Alegra - Ambato</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #8B0000;
+            --secondary: #DC143C;
+            --accent: #FF6B6B;
+            --cream: #FFF8DC;
+            --white: #FFFFFF;
+            --dark: #1a1a2e;
+            --text: #2C3E50;
+            --light-text: #7F8C8D;
+            --gradient-1: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            --shadow: 0 10px 40px rgba(139, 0, 0, 0.15);
+            --shadow-hover: 0 20px 60px rgba(139, 0, 0, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        .logo-transition {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--white); display: flex; justify-content: center; align-items: center;
+            z-index: 10000; transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        .logo-transition.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .logo-transition-content { text-align: center; animation: logoEntrance 1s ease; }
+        .logo-transition img {
+            width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+            border: 8px solid var(--primary); box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3);
+            animation: logoPulse 1s ease-in-out infinite;
+        }
+        .logo-transition h2 {
+            font-size: 2.8rem; background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-top: 25px; margin-bottom: 8px;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+        .logo-transition p { font-size: 1.2rem; color: var(--light-text); animation: fadeInUp 0.8s ease 0.3s backwards; }
+
+        @keyframes logoEntrance { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes logoPulse { 0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3); } 50% { transform: scale(1.08); box-shadow: 0 30px 80px rgba(139, 0, 0, 0.5); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .navbar {
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px); box-shadow: 0 2px 30px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
+        .logo img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.2); }
+        .logo-text h1 { font-size: 1.9rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; line-height: 1; font-weight: 800; }
+        .logo-text p { font-size: 0.85rem; color: var(--light-text); margin: 0; font-weight: 600; }
+        .nav-menu { display: flex; align-items: center; gap: 35px; list-style: none; }
+        .nav-menu a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 0.95rem; transition: all 0.3s ease; position: relative; padding: 8px 0; }
+        .nav-menu a::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--gradient-1); transition: width 0.3s ease; border-radius: 3px; }
+        .nav-menu a:hover::before { width: 100%; }
+        .nav-menu a:hover { color: var(--primary); transform: translateY(-2px); }
+        .nav-cta { background: var(--gradient-1); color: var(--white) !important; padding: 12px 28px; border-radius: 30px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(139, 0, 0, 0.3); font-weight: 800 !important; }
+        .nav-cta::before { display: none !important; }
+        .nav-cta:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 30px rgba(139, 0, 0, 0.4); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 2rem; color: var(--primary); cursor: pointer; }
+
+        .hero {
+            margin-top: 100px; min-height: 95vh;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.9) 0%, rgba(220, 20, 60, 0.9) 100%);
+            display: flex; align-items: center; position: relative; overflow: hidden;
+        }
+        .hero-container { max-width: 1400px; margin: 0 auto; padding: 50px 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
+        .hero-content h2 { font-size: 4.5rem; color: var(--white); margin-bottom: 15px; text-shadow: 0 5px 30px rgba(0,0,0,0.4); animation: fadeInUp 1s ease; font-weight: 900; }
+        .hero-content .tagline { font-size: 2rem; color: var(--cream); margin-bottom: 25px; font-weight: 300; animation: fadeInUp 1s ease 0.2s backwards; }
+        .hero-content p { font-size: 1.3rem; color: var(--white); margin-bottom: 45px; line-height: 1.8; animation: fadeInUp 1s ease 0.4s backwards; opacity: 0.95; }
+        .hero-buttons { display: flex; gap: 25px; animation: fadeInUp 1s ease 0.6s backwards; flex-wrap: wrap; }
+        .btn-primary { background: var(--white); color: var(--primary); padding: 20px 45px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.15rem; display: inline-flex; align-items: center; gap: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.25); transition: all 0.3s ease; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+        .btn-secondary { background: transparent; color: var(--white); padding: 20px 45px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.15rem; display: inline-flex; align-items: center; gap: 15px; border: 3px solid var(--white); transition: all 0.3s ease; cursor: pointer; }
+        .btn-secondary:hover { background: var(--white); color: var(--primary); transform: translateY(-8px); }
+        .hero-image img { width: 100%; max-width: 650px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4)); animation: float3D 8s ease-in-out infinite; border-radius: 30px; }
+        @keyframes float3D { 0%, 100% { transform: translateY(0) rotateY(0deg); } 50% { transform: translateY(-30px) rotateY(8deg); } }
+
+        .info-bar { background: var(--cream); padding: 25px 30px; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .info-item { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--text); font-size: 1.05rem; }
+        .info-item i { font-size: 1.8rem; color: var(--primary); }
+
+        .categories-section { padding: 100px 30px; max-width: 1400px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 3.5rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; font-weight: 900; }
+        .section-title p { font-size: 1.3rem; color: var(--light-text); }
+        .category-filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; flex-wrap: wrap; }
+        .filter-btn { padding: 14px 35px; border: 2px solid var(--primary); background: var(--white); color: var(--primary); border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .filter-btn:hover, .filter-btn.active { background: var(--gradient-1); color: var(--white); border-color: transparent; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3); }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px; }
+        .product-card { background: var(--white); border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.5s ease; position: relative; border: 2px solid transparent; }
+        .product-card:hover { transform: translateY(-20px) scale(1.02); box-shadow: var(--shadow-hover); border-color: var(--primary); }
+        .product-badge { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); color: var(--white); padding: 10px 20px; border-radius: 25px; font-weight: 800; font-size: 0.9rem; z-index: 10; box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
+        .product-image { height: 280px; background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-image img { transform: scale(1.1); }
+        .product-image .no-image { font-size: 8rem; }
+        .product-info { padding: 35px; }
+        .product-category { color: var(--primary); font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .product-name { font-size: 1.7rem; color: var(--text); margin-bottom: 15px; font-weight: 800; }
+        .product-description { color: var(--light-text); font-size: 1rem; margin-bottom: 25px; line-height: 1.7; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; }
+        .product-price { font-size: 2.3rem; font-weight: 900; color: var(--primary); }
+        .product-price span { font-size: 1.1rem; color: var(--light-text); font-weight: 600; }
+        .btn-add-cart { background: var(--gradient-1); color: var(--white); border: none; padding: 14px 30px; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(139, 0, 0, 0.3); text-decoration: none; }
+        .btn-add-cart:hover { transform: scale(1.1); box-shadow: 0 12px 30px rgba(139, 0, 0, 0.4); }
+
+        .promotions-section { padding: 120px 30px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); position: relative; overflow: hidden; }
+        .promotions-section .section-title h2, .promotions-section .section-title p { color: var(--white); position: relative; z-index: 1; }
+        .promotions-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; position: relative; z-index: 1; }
+        .promotion-card { background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%); border-radius: 30px; padding: 50px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transition: all 0.5s ease; border: 3px solid transparent; }
+        .promotion-card:hover { transform: translateY(-20px) scale(1.05); border-color: var(--primary); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
+        .promotion-icon { font-size: 5rem; margin-bottom: 25px; }
+        .promotion-card h3 { font-size: 2.8rem; color: var(--primary); margin-bottom: 20px; font-weight: 900; }
+        .promotion-card p { font-size: 1.25rem; color: var(--light-text); margin-bottom: 30px; line-height: 1.7; }
+        .promotion-price { font-size: 3.5rem; font-weight: 900; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 30px; }
+
+        .footer { background: var(--dark); color: var(--white); padding: 60px 30px 30px; }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 50px; }
+        .footer-section h3 { font-size: 1.6rem; margin-bottom: 25px; color: var(--cream); font-weight: 800; }
+        .footer-section p, .footer-section a { color: rgba(255,255,255,0.85); text-decoration: none; line-height: 2; transition: all 0.3s ease; font-size: 1.05rem; }
+        .footer-section a:hover { color: var(--accent); padding-left: 8px; }
+        .footer-social { display: flex; gap: 15px; margin-top: 25px; }
+        .footer-social a { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.3s ease; }
+        .footer-social a:hover { background: var(--primary); transform: translateY(-8px) scale(1.1); }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+
+        .whatsapp-float { position: fixed; bottom: 35px; right: 35px; width: 70px; height: 70px; background: #25D366; color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4); cursor: pointer; z-index: 999; transition: all 0.3s ease; text-decoration: none; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 25px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+        .whatsapp-float:hover { transform: scale(1.15) rotate(10deg); }
+
+        @media (max-width: 968px) {
+            .nav-menu { position: fixed; top: 100px; left: -100%; width: 100%; height: calc(100vh - 100px); background: var(--white); flex-direction: column; padding: 40px; transition: left 0.3s ease; }
+            .nav-menu.active { left: 0; }
+            .mobile-menu-btn { display: block; }
+            .hero-container { grid-template-columns: 1fr; gap: 40px; }
+            .hero-content h2 { font-size: 3rem; }
+            .hero-buttons { flex-direction: column; }
+            .section-title h2 { font-size: 2.5rem; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        }
+        @media (max-width: 480px) {
+            .hero-content h2 { font-size: 2.3rem; }
+            .whatsapp-float { width: 60px; height: 60px; font-size: 2.3rem; }
+            .section-title h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-transition" id="logoTransition">
+        <div class="logo-transition-content">
+            <img src="C:\Users\HP\Desktop\MJ HELADOS\logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/180'">
+            <h2>MJ HELADOS</h2>
+            <p>Frescura que te alegra</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="C:\Users\HP\Desktop\MJ HELADOS\logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/65'">
+                <div class="logo-text">
+                    <h1>MJ HELADOS</h1>
+                    <p>Frescura que te alegra</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sabores">Sabores</a></li>
+                <li><a href="#promociones">Promociones</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="https://wa.me/593987360827" class="nav-cta" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <section class="hero" id="inicio">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h2>MJ HELADOS</h2>
+                <p class="tagline">Frescura que te alegra</p>
+                <p>Helados artesanales elaborados con los mejores ingredientes naturales. Sabor y calidad en cada bocado.</p>
+                <div class="hero-buttons">
+                    <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20hacer%20un%20pedido" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+                    <a href="#sabores" class="btn-secondary"><i class="fas fa-ice-cream"></i> Ver Sabores</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1560008581-09826d1de69e?w=600" alt="Helados MJ">
+            </div>
+        </div>
+    </section>
+
+    <div class="info-bar">
+        <div class="info-item"><i class="fas fa-truck"></i><span>🚚 Entrega GRATIS en Ambato</span></div>
+        <div class="info-item"><i class="fas fa-clock"></i><span>🕘 Atención: 09:00 AM - 04:00 PM</span></div>
+    </div>
+
+    <section class="categories-section" id="sabores">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Nuestros Helados</h2>
+            <p>Descubre nuestros deliciosos sabores artesanales</p>
+        </div>
+
+        <div class="category-filters" data-aos="fade-up">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="Paletas">Paletas</button>
+            <button class="filter-btn" data-filter="Cremosos">Cremosos</button>
+            <button class="filter-btn" data-filter="Frutales">Frutales</button>
+            <button class="filter-btn" data-filter="Chocolate">Chocolate</button>
+            <button class="filter-btn" data-filter="Especiales">Especiales</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <section class="promotions-section" id="promociones">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Promociones Especiales</h2>
+            <p>Aprovecha nuestras increíbles ofertas</p>
+        </div>
+        <div class="promotions-grid">
+            <div class="promotion-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="promotion-icon">🍦🍦</div>
+                <h3>2 Helados</h3>
+                <p>Lleva 2 helados de tu preferencia</p>
+                <div class="promotion-price">$1.00</div>
+                <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20la%20promo%202x$1" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+            </div>
+            <div class="promotion-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="promotion-icon">🍦🍦</div>
+                <h3>5 Helados</h3>
+                <p>Pack familiar especial</p>
+                <div class="promotion-price">$2.40</div>
+                <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20la%20promo%205x$2.40" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
+            </div>
+            <div class="promotion-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="promotion-icon"></div>
+                <h3>Entrega Gratis</h3>
+                <p>En toda la ciudad de Ambato</p>
+                <div class="promotion-price">SIN COSTO</div>
+                <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20info%20de%20entrega%20gratis" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Más Info</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contacto">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>MJ HELADOS</h3>
+                <p>Frescura que te alegra. Helados artesanales en Ambato.</p>
+                <div class="footer-social">
+                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/593987360827" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <p><a href="#inicio">Inicio</a></p>
+                <p><a href="#sabores">Catálogo</a></p>
+                <p><a href="#promociones">Promociones</a></p>
+                <p><a href="#contacto">Contacto</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <p>Lunes a Domingo</p>
+                <p>🕘 09:00 AM - 04:00 PM</p>
+                <p style="margin-top: 25px;"><strong>🚚 Entrega GRATIS</strong><br>en Ambato</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Ambato, Ecuador</p>
+                <p><i class="fas fa-phone"></i> 098 736 0827</p>
+                <p><i class="fas fa-envelope"></i> info@mjhelados.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MJ Helados. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20hacer%20un%20pedido" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('logoTransition').classList.add('hidden');
+            }, 1000);
+        });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Cargar productos desde localStorage
+        let products = [];
+        function loadProductsFromStorage() {
+            const saved = localStorage.getItem('mjhelados_products');
+            if (saved) {
+                products = JSON.parse(saved);
+            } else {
+                // Productos por defecto si no hay nada guardado
+                products = [
+                    { nombre: 'Tricolor', categoria: 'Cremosos', precio: 0.60, stock: 50, estado: '1', destacado: '1', descripcion: 'Crema, mora y maracuyá. El clásico favorito.', imagen: null },
+                    { nombre: 'Chocolate', categoria: 'Chocolate', precio: 0.70, stock: 45, estado: '1', destacado: '0', descripcion: 'Intenso sabor a chocolate belga.', imagen: null },
+                    { nombre: 'Fresa', categoria: 'Frutales', precio: 0.60, stock: 60, estado: '1', destacado: '0', descripcion: 'Fresa natural con trozos de fruta fresca.', imagen: null }
+                ];
+            }
+        }
+
+        function loadProducts(filter = 'all') {
+            const grid = document.getElementById('productsGrid');
+            const filtered = filter === 'all' ? products : products.filter(p => p.categoria === filter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--light-text);"><i class="fas fa-ice-cream" style="font-size: 4rem; margin-bottom: 20px; display: block;"></i><h3>No hay productos en esta categoría</h3></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map((product, index) => `
+                <div class="product-card" data-aos="fade-up" data-aos-delay="${index * 150}">
+                    ${product.destacado === '1' ? '<span class="product-badge">⭐ DESTACADO</span>' : ''}
+                    <div class="product-image">
+                        ${product.imagen ? `<img src="${product.imagen}" alt="${product.nombre}">` : '<div class="no-image">🍦</div>'}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.categoria}</div>
+                        <h3 class="product-name">${product.nombre}</h3>
+                        <p class="product-description">${product.descripcion || 'Delicioso helado artesanal'}</p>
+                        <div class="product-footer">
+                            <div class="product-price">$${product.precio.toFixed(2)}<span>c/u</span></div>
+                            <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20pedir%20${encodeURIComponent(product.nombre)}" class="btn-add-cart" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Pedir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                loadProducts(e.target.dataset.filter);
+            });
+        });
+
+        loadProductsFromStorage();
+        loadProducts();
+    </script>
+</body>
+</html>
