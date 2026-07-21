@@ -171,7 +171,7 @@
 <body>
     <div class="logo-transition" id="logoTransition">
         <div class="logo-transition-content">
-            <img src="C:\Users\HP\Desktop\MJ HELADOS\logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/180'">
+            <img src="logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/180'">
             <h2>MJ HELADOS</h2>
             <p>Frescura que te alegra</p>
         </div>
@@ -180,7 +180,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <img src="C:\Users\HP\Desktop\MJ HELADOS\logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/65'">
+                <img src="logo.png" alt="MJ Helados" onerror="this.src='https://via.placeholder.com/65'">
                 <div class="logo-text">
                     <h1>MJ HELADOS</h1>
                     <p>Frescura que te alegra</p>
@@ -216,7 +216,7 @@
 
     <div class="info-bar">
         <div class="info-item"><i class="fas fa-truck"></i><span>🚚 Entrega GRATIS en Ambato</span></div>
-        <div class="info-item"><i class="fas fa-clock"></i><span>🕘 Atención: 09:00 AM - 04:00 PM</span></div>
+        <div class="info-item"><i class="fas fa-clock"></i><span> Atención: 09:00 AM - 04:00 PM</span></div>
     </div>
 
     <section class="categories-section" id="sabores">
@@ -258,7 +258,7 @@
                 <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20la%20promo%205x$2.40" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Ahora</a>
             </div>
             <div class="promotion-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="promotion-icon"></div>
+                <div class="promotion-icon">🚚</div>
                 <h3>Entrega Gratis</h3>
                 <p>En toda la ciudad de Ambato</p>
                 <div class="promotion-price">SIN COSTO</div>
@@ -308,31 +308,36 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Inicializar AOS
         AOS.init({ duration: 800, once: true, offset: 100 });
 
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('logoTransition').classList.add('hidden');
+        // Ocultar transición del logo - CORREGIDO
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var transition = document.getElementById('logoTransition');
+                if (transition) {
+                    transition.classList.add('hidden');
+                }
             }, 1000);
         });
 
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        mobileMenuBtn.addEventListener('click', () => {
+        // Menú móvil
+        var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        var navMenu = document.getElementById('navMenu');
+        mobileMenuBtn.addEventListener('click', function() {
             navMenu.classList.toggle('active');
-            const icon = mobileMenuBtn.querySelector('i');
+            var icon = mobileMenuBtn.querySelector('i');
             icon.classList.toggle('fa-bars');
             icon.classList.toggle('fa-times');
         });
 
-        // Cargar productos desde localStorage
-        let products = [];
+        // Productos
+        var products = [];
         function loadProductsFromStorage() {
-            const saved = localStorage.getItem('mjhelados_products');
+            var saved = localStorage.getItem('mjhelados_products');
             if (saved) {
                 products = JSON.parse(saved);
             } else {
-                // Productos por defecto si no hay nada guardado
                 products = [
                     { nombre: 'Tricolor', categoria: 'Cremosos', precio: 0.60, stock: 50, estado: '1', destacado: '1', descripcion: 'Crema, mora y maracuyá. El clásico favorito.', imagen: null },
                     { nombre: 'Chocolate', categoria: 'Chocolate', precio: 0.70, stock: 45, estado: '1', destacado: '0', descripcion: 'Intenso sabor a chocolate belga.', imagen: null },
@@ -341,39 +346,41 @@
             }
         }
 
-        function loadProducts(filter = 'all') {
-            const grid = document.getElementById('productsGrid');
-            const filtered = filter === 'all' ? products : products.filter(p => p.categoria === filter);
+        function loadProducts(filter) {
+            filter = filter || 'all';
+            var grid = document.getElementById('productsGrid');
+            var filtered = filter === 'all' ? products : products.filter(function(p) { return p.categoria === filter; });
 
             if (filtered.length === 0) {
                 grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--light-text);"><i class="fas fa-ice-cream" style="font-size: 4rem; margin-bottom: 20px; display: block;"></i><h3>No hay productos en esta categoría</h3></div>';
                 return;
             }
 
-            grid.innerHTML = filtered.map((product, index) => `
-                <div class="product-card" data-aos="fade-up" data-aos-delay="${index * 150}">
-                    ${product.destacado === '1' ? '<span class="product-badge">⭐ DESTACADO</span>' : ''}
-                    <div class="product-image">
-                        ${product.imagen ? `<img src="${product.imagen}" alt="${product.nombre}">` : '<div class="no-image">🍦</div>'}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">${product.categoria}</div>
-                        <h3 class="product-name">${product.nombre}</h3>
-                        <p class="product-description">${product.descripcion || 'Delicioso helado artesanal'}</p>
-                        <div class="product-footer">
-                            <div class="product-price">$${product.precio.toFixed(2)}<span>c/u</span></div>
-                            <a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20pedir%20${encodeURIComponent(product.nombre)}" class="btn-add-cart" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            grid.innerHTML = filtered.map(function(product, index) {
+                return '<div class="product-card" data-aos="fade-up" data-aos-delay="' + (index * 150) + '">' +
+                    (product.destacado === '1' ? '<span class="product-badge">⭐ DESTACADO</span>' : '') +
+                    '<div class="product-image">' +
+                    (product.imagen ? '<img src="' + product.imagen + '" alt="' + product.nombre + '">' : '<div class="no-image">🍦</div>') +
+                    '</div>' +
+                    '<div class="product-info">' +
+                    '<div class="product-category">' + product.categoria + '</div>' +
+                    '<h3 class="product-name">' + product.nombre + '</h3>' +
+                    '<p class="product-description">' + (product.descripcion || 'Delicioso helado artesanal') + '</p>' +
+                    '<div class="product-footer">' +
+                    '<div class="product-price">$' + product.precio.toFixed(2) + '<span>c/u</span></div>' +
+                    '<a href="https://wa.me/593987360827?text=¡Hola!%20Quiero%20pedir%20' + encodeURIComponent(product.nombre) + '" class="btn-add-cart" target="_blank">' +
+                    '<i class="fab fa-whatsapp"></i> Pedir' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+            }).join('');
         }
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        var filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                filterBtns.forEach(function(b) { b.classList.remove('active'); });
                 e.target.classList.add('active');
                 loadProducts(e.target.dataset.filter);
             });
